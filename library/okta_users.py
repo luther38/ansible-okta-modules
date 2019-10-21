@@ -85,6 +85,24 @@ EXAMPLES = '''
     api_key: "TmHvH4LY9HH9MDRDiLChLGwhRjHsarTCBzpwbua3ntnQ"
     limit: 25
 
+# List User by email
+- okta_users:
+    organization: "unicorns"
+    api_key: "TmHvH4LY9HH9MDRDiLChLGwhRjHsarTCBzpwbua3ntnQ"
+    email: whitney@unicorns.lol
+
+# List user by first_name
+- okta_users:
+    organization: "unicorns"
+    api_key: "TmHvH4LY9HH9MDRDiLChLGwhRjHsarTCBzpwbua3ntnQ"
+    first_name: "Whitney"
+
+# List user by last_name
+- okta_users:
+    organization: "unicorns"
+    api_key: "TmHvH4LY9HH9MDRDiLChLGwhRjHsarTCBzpwbua3ntnQ"
+    last_name: "Champion"
+
 # Create user
 - okta_users:
     action: create
