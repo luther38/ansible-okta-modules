@@ -326,6 +326,23 @@ def list(module,base_url,api_key,limit):
 
     return info['status'], info['msg'], content, url
 
+def getuser(module, base_url, api_key, email):
+    headers = '{ "Content-Type": "application/json", "Authorization": "SSWS %s", "Accept": "application/json" }' % (api_key)
+    url = base_url+"?q="+email+"&limit=1"
+    response, info = fetch_url(module=module, url=url, headers=json.loads(headers), method='GET')
+
+    if info['status'] != 200:
+        module.fail_json(msg="Fail: %s" % ( "Status: "+str(info['msg']) + ", Message: " + str(info['body'])))
+
+    try:
+        content = response.read()
+    except AttributeError:
+        content = info.pop('body', '')
+
+    return info['status'], info['msg'], content, url
+
+ 
+
 def main():
     module = AnsibleModule(
         argument_spec = dict(
@@ -371,6 +388,13 @@ def main():
     elif action == "deactivate":
         status, message, content, url = deactivate(module,base_url,api_key,id)
     elif action == "list":
+      if email is not None:
+        status, message, content, url = getuser(module,base_url,api_key,email)
+      elif first_name is not None:
+        status, message, content, url = getuser(module,base_url,api_key, first_name)
+      elif last_name is not None:
+        status, message, content, url = getuser(module,base_url,api_key,last_name)
+      else:
         status, message, content, url = list(module,base_url,api_key,limit)
 
     uresp = {}
